@@ -72,47 +72,7 @@ Seed corpus focus: DESIVAST (void catalog methodology) — central to all three 
 
 The system decouples content from context, bridged by NASA ADS Bibcode as the universal key.
 
-```mermaid
-graph TB
-    subgraph "Federated Knowledge Core"
-        subgraph SL["Semantic Layer<br/>(PostgreSQL + pgvector)"]
-            S1[Chunked Text]
-            S2[Embeddings]
-            S3[Vector Search]
-        end
-        
-        subgraph TL["Topological Layer<br/>(Neo4j)"]
-            T1[Citation Graph]
-            T2[Authorship Networks]
-            T3[Concept Links]
-        end
-        
-        subgraph PL["Physical Layer<br/>(SMB Storage)"]
-            P1[PDF Artifacts]
-            P2[LaTeX Source]
-            P3[FITS Headers]
-        end
-    end
-    
-    BIB[NASA ADS Bibcode<br/>Universal Key]
-    
-    S1 --- BIB
-    T1 --- BIB
-    P1 --- BIB
-    
-    subgraph "Access Patterns"
-        Q1[Semantic Query] --> S3
-        S3 --> T1
-        T1 --> P1
-        Q2[Graph Traversal] --> T2
-        Q3[Artifact Retrieval] --> P3
-    end
-    
-    style SL fill:#336791,color:#fff
-    style TL fill:#4581C3,color:#fff
-    style PL fill:#4ecdc4,color:#000
-    style BIB fill:#fff3e0,color:#000
-```
+![alt text](assets/federated-knowledge-core-infographic.jpg)
 
 ### Corpus Quality Hierarchy
 
