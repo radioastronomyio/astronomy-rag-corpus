@@ -1,0 +1,7 @@
+# Astronomy RAG Corpus Brief
+
+The Astronomy RAG Corpus is a specialized knowledge system designed to support Retrieval-Augmented Generation for astronomical research. It implements a Federated Knowledge Core architecture that decouples semantic content (what papers say) from structural relationships (how papers connect), unified by NASA ADS Bibcode as the universal key. The system uses PostgreSQL with pgvector for embeddings, Neo4j for citation topology, and SMB storage for artifact management.
+
+This project exists to ground LLM responses in verifiable scientific data, preventing hallucination in expert-level astronomical queries. By preserving citation networks and observational provenance, the corpus enables multi-step research workflows that mirror how human researchers navigate literature — following citations, evaluating methodological lineage, and synthesizing across papers. The LaTeX-first extraction approach ensures mathematical notation survives ingestion without the corruption typical of PDF processing.
+
+The primary consumers are the DESI research portfolio projects: desi-cosmic-void-galaxies (environmental quenching), desi-qso-anomaly-detection (ML outlier detection), and desi-quasar-outflows (AGN feedback). The corpus provides literature grounding for Claude Code integration via MCP, enabling researchers to query astronomical literature with full citation attribution during analysis sessions.
