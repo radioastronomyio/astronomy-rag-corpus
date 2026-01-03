@@ -4,19 +4,19 @@ title: "Acquisition Module"
 description: "Paper source retrieval from arXiv and NASA ADS"
 author: "VintageDon"
 date: "2026-01-03"
-version: "1.0"
+version: "1.1"
 status: "Active"
 tags:
   - type: directory-readme
   - domain: ingestion
   - phase: foundation
-  - tech: arxiv, python
+  - tech: arxiv, pypdf, python
 ---
 -->
 
 # Acquisition Module
 
-Paper source retrieval from arXiv and NASA ADS. Downloads LaTeX source tarballs (preferred) or PDF fallbacks for corpus ingestion. This is the first stage of the ingestion pipeline.
+Paper source retrieval from arXiv and NASA ADS. Downloads LaTeX source tarballs (preferred) and PDFs for corpus ingestion. This is the first stage of the ingestion pipeline.
 
 ---
 
@@ -24,7 +24,7 @@ Paper source retrieval from arXiv and NASA ADS. Downloads LaTeX source tarballs 
 
 ```
 acquisition/
-├── arxiv_client.py         # arXiv source downloader
+├── arxiv_client.py         # arXiv source and PDF downloader
 ├── test_arxiv_client.py    # Manual validation script
 ├── __init__.py             # Package exports
 └── README.md               # This file
@@ -36,23 +36,43 @@ acquisition/
 
 | File | Description |
 |------|-------------|
-| `arxiv_client.py` | Downloads LaTeX source tarballs from arXiv given an arXiv ID |
+| `arxiv_client.py` | Downloads LaTeX source tarballs and PDFs from arXiv given an arXiv ID |
 | `test_arxiv_client.py` | Manual test script; downloads seed paper to `test_output/raw/` |
-| `__init__.py` | Exports `download_source` and custom exceptions |
+| `__init__.py` | Exports `download_source`, `download_pdf`, and custom exceptions |
 
 ---
 
 ## 3. Usage
 
+### Download LaTeX Source
+
 ```python
-from acquisition import download_source, PaperNotFoundError
+from acquisition import download_source, PaperNotFoundError, SourceUnavailableError
 
 try:
     path = download_source("2411.00148", output_dir="./raw")
     print(f"Downloaded to: {path}")
 except PaperNotFoundError:
     print("Paper not found on arXiv")
+except SourceUnavailableError:
+    print("LaTeX source not available for this paper")
 ```
+
+### Download PDF
+
+```python
+from acquisition import download_pdf, PaperNotFoundError, PDFCorruptError
+
+try:
+    path = download_pdf("2411.00148", output_dir="./raw")
+    print(f"Downloaded to: {path}")
+except PaperNotFoundError:
+    print("Paper not found on arXiv")
+except PDFCorruptError:
+    print("PDF failed validation (corrupt or malformed)")
+```
+
+Both functions log metadata to `{output_dir}/download_metadata.csv` for tracking during iterative testing.
 
 ---
 
@@ -62,22 +82,39 @@ except PaperNotFoundError:
 |-----------|---------|
 | `PaperNotFoundError` | arXiv ID does not exist |
 | `SourceUnavailableError` | Paper exists but LaTeX source not available |
+| `PDFCorruptError` | Downloaded PDF fails validation (magic bytes or structure) |
 | `NetworkError` | Connection or timeout failure |
 
 ---
 
-## 5. Future Additions
+## 5. Metadata Tracking
+
+Both download functions append to `download_metadata.csv`:
+
+| Column | Type | Notes |
+|--------|------|-------|
+| timestamp | ISO datetime | UTC, timezone-aware |
+| arxiv_id | string | Paper identifier |
+| artifact_type | string | "source" or "pdf" |
+| file_size_bytes | int | Downloaded file size |
+| page_count | int/null | PDF pages, null for source |
+| validation_status | string | "valid", "corrupt", "skipped" |
+
+---
+
+## 6. Future Additions
 
 | Component | Purpose |
 |-----------|---------|
 | `ads_client.py` | NASA ADS metadata and bibcode retrieval |
 | `batch_download.py` | Bulk acquisition with rate limiting |
+| Fallback logic (Task 2.5) | Orchestration: try source, fall back to PDF |
 
 ---
 
-## 6. Related
+## 7. Related
 
 | Document | Relationship |
 |----------|--------------|
 | [src/](../README.md) | Parent package |
-| [Phase 03 Worklog](../../work-logs/03-arxiv-client-implementation/README.md) | Implementation details |
+| [Milestone 1 Worklog](../../work-logs/03-arxiv-client-implementation/README.md) | Implementation details |
