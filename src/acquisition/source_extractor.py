@@ -317,6 +317,10 @@ def extract_source(
         logger.error(f"File system error during extraction: {e}")
         raise ExtractionError(f"Extraction failed due to file system error: {e}")
     
+    except CorruptTarballError:
+        # Re-raise as-is (specific error with context)
+        raise
+    
     except Exception as e:
         logger.error(f"Unexpected error during extraction: {e}")
         raise ExtractionError(f"Unexpected error during extraction: {e}")
