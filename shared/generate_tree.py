@@ -76,7 +76,7 @@ def build_tree(root_path, exclude_set, include_files=False, show_sizes=False):
         """Recursively walk directory and build tree lines."""
         try:
             entries = sorted(os.listdir(current_path))
-        except PermissionError:
+        except (PermissionError, FileNotFoundError, NotADirectoryError):
             return
         
         # Directories first, then files — consistent visual ordering
