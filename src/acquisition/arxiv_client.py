@@ -67,7 +67,7 @@ def download_source(arxiv_id: str, output_dir: Path | str) -> Path:
         
         logger.info(f"Found paper: {paper.title}")
         
-        filename = f"{arxiv_id}.tar.gz"
+        filename = f"{arxiv_id.replace('/', '_')}.tar.gz"
         output_path = output_dir / filename
         
         logger.info(f"Downloading source to: {output_path}")
