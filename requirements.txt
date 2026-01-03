@@ -1,0 +1,69 @@
+# =============================================================================
+# File         : requirements.txt
+# Description  : Python package dependencies for the Astronomy RAG Corpus
+# Repository   : astronomy-rag-corpus
+# Author       : VintageDon (https://github.com/vintagedon)
+# Created      : 2025-12-29
+# Updated      : 2026-01-03
+# Link         : https://github.com/Proxmox-Astronomy-Lab/astronomy-rag-corpus
+#
+# Usage        : pip install -r requirements.txt
+#
+# Notes
+# -----
+# Dependencies are grouped by function. Optional and development packages
+# are commented with their use case. Version pins use >= for flexibility
+# while ensuring minimum required features.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Acquisition (Phase 03)
+# -----------------------------------------------------------------------------
+arxiv>=2.0.0                    # arXiv API wrapper for paper retrieval
+
+# -----------------------------------------------------------------------------
+# Extraction (Phase 04)
+# -----------------------------------------------------------------------------
+pylatexenc>=2.10                # LaTeX text extraction
+pymupdf>=1.23.0                 # PDF fallback extraction
+
+# -----------------------------------------------------------------------------
+# Storage (Phase 05)
+# -----------------------------------------------------------------------------
+psycopg2-binary>=2.9            # PostgreSQL connection
+pgvector>=0.2.0                 # pgvector Python bindings
+sentence-transformers>=2.2.0    # Embedding generation
+
+# -----------------------------------------------------------------------------
+# Graph Layer (Phase 07)
+# -----------------------------------------------------------------------------
+neo4j>=5.0.0                    # Neo4j driver for citation graphs
+
+# -----------------------------------------------------------------------------
+# Agent (Phase 08)
+# -----------------------------------------------------------------------------
+langgraph>=0.0.1                # Stateful agent orchestration
+
+# -----------------------------------------------------------------------------
+# Interface (Phase 09)
+# -----------------------------------------------------------------------------
+mcp>=0.1.0                      # MCP server SDK
+
+# -----------------------------------------------------------------------------
+# Infrastructure
+# -----------------------------------------------------------------------------
+python-dotenv>=1.0.0            # Environment configuration
+httpx>=0.25.0                   # Async HTTP client
+
+# -----------------------------------------------------------------------------
+# Optional - Astronomy Tools
+# -----------------------------------------------------------------------------
+# astropy>=6.0.0                # FITS header handling (uncomment if needed)
+
+# -----------------------------------------------------------------------------
+# Development
+# -----------------------------------------------------------------------------
+# pytest>=7.0.0                 # Testing framework
+# pytest-cov>=4.0.0             # Coverage reporting
+# black>=23.0.0                 # Code formatting
+# ruff>=0.1.0                   # Linting

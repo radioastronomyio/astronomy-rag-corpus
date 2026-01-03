@@ -1,13 +1,71 @@
-# Astronomy RAG Corpus Tasks and Workflows
+# Astronomy RAG Corpus Tasks
 
-## Common Workflows
+> **Source of Truth:** [GitHub Project Board](https://github.com/CrainBramp/astronomy-rag-corpus/projects)
+> **Last Synced:** 2025-01-03
 
-### Paper Ingestion (Future — Phase 03+)
+## Project Structure
 
-**When to use:** Adding a new paper to the corpus  
+Three milestones covering the core pipeline: Acquisition → Extraction → Storage.
+
+### Milestone 1: Acquisition
+
+Paper discovery and artifact retrieval from arXiv/ADS.
+
+| Task | Issue | Status |
+|------|-------|--------|
+| 1.1 Select Seed Paper | #1 | ✅ Done |
+| 1.2 Define Storage Paths | #2 | ✅ Done |
+| 1.3 Implement arXiv Client | #3 | 🔄 In Progress |
+| 1.4 Download Artifacts | #4 | ⏳ Ready |
+| 1.5 Extract and Organize Source | #5 | 📋 Backlog |
+
+### Milestone 2: Extraction
+
+LaTeX parsing, text cleaning, and structure preservation.
+
+| Task | Issue | Status |
+|------|-------|--------|
+| 2.1 Evaluate Extraction Tools | #6 | 📋 Backlog |
+| 2.2 Implement LaTeX Parser | #7 | 📋 Backlog |
+| 2.3 Preserve Document Structure | #8 | 📋 Backlog |
+| 2.4 Handle Math Notation | #9 | 📋 Backlog |
+| 2.5 Implement PDF Fallback | #10 | 📋 Backlog |
+| 2.6 Validate Output Quality | #11 | 📋 Backlog |
+
+### Milestone 3: Storage
+
+Database provisioning, embedding pipeline, and retrieval.
+
+| Task | Issue | Status |
+|------|-------|--------|
+| 3.1 Provision Database | #12 | 📋 Backlog |
+| 3.2 Design Schema | #13 | 📋 Backlog |
+| 3.3 Evaluate Embedding Models | #14 | 📋 Backlog |
+| 3.4 Implement Chunking | #15 | 📋 Backlog |
+| 3.5 Generate and Store Embeddings | #16 | 📋 Backlog |
+| 3.6 Build Retrieval Function | #17 | 📋 Backlog |
+| 3.7 Validate End-to-End | #18 | 📋 Backlog |
+
+---
+
+## Status Legend
+
+| Icon | Status | Meaning |
+|------|--------|---------|
+| ✅ | Done | Completed and closed |
+| 🔄 | In Progress | Actively being worked |
+| ⏳ | Ready | Dependencies met, ready to start |
+| 📋 | Backlog | Not yet started |
+
+---
+
+## Workflows
+
+### Paper Ingestion (Milestone 1-3 Combined)
+
+**When to use:** Adding a new paper to the corpus
 **Frequency:** Batch during harvesting, individual during research
 
-**Steps:**
 1. Obtain arXiv ID or bibcode
 2. Query ADS for bibliographic metadata
 3. Download LaTeX source from arXiv (fall back to PDF if unavailable)
@@ -17,34 +75,41 @@
 7. Extract citations from ADS, insert relationships into Neo4j
 8. Copy artifact (PDF) to SMB with canonical path
 
-**Expected Outcome:** Paper searchable via semantic query, citations traversable in graph  
+**Expected Outcome:** Paper searchable via semantic query, citations traversable in graph
 **Common Issues:** LaTeX source unavailable (use PDF fallback), rate limiting (add delays)
 
----
+### Semantic Search (Post-Milestone 3)
 
-### Semantic Search (Future — Phase 03+)
-
-**When to use:** Finding relevant papers for a research question  
+**When to use:** Finding relevant papers for a research question
 **Frequency:** Ad-hoc during research sessions
 
-**Steps:**
 1. Embed query text using same model as corpus
 2. Execute pgvector similarity search
 3. Retrieve top-N chunks with bibcodes
 4. Optionally expand via citation graph (graph-boosted retrieval)
 5. Return results with source attribution
 
-**Expected Outcome:** Ranked list of relevant text chunks with bibcode citations  
+**Expected Outcome:** Ranked list of relevant text chunks with bibcode citations
 **Common Issues:** Poor relevance (check embedding model, chunk size)
 
 ---
 
 ## Memory Bank Maintenance
 
+### Updating tasks.md
+
+**When:** After planning changes or task status changes
+**Principle:** Planning isn't complete until tasks.md reflects the plan
+
+1. Update task statuses to match GitHub project board
+2. Update "Last Synced" date
+3. Add/remove tasks if milestone structure changes
+4. Commit with message: `chore: sync tasks.md with GitHub`
+
 ### Updating context.md
 
-**When:** After every significant work session  
-**What to update:**
+**When:** After every significant work session
+
 1. Move completed items from "Next Steps" to "Recent Accomplishments"
 2. Update "Current Phase" if phase changed
 3. Update "Next Steps" with new actionable items
@@ -56,78 +121,22 @@
 
 ---
 
-### Phase Completion Checklist
-
-**When:** Completing a development phase  
-**Steps:**
-1. Update work-log README for the phase (status → Complete)
-2. Update work-logs/README.md phase table
-3. Update main README.md phase table
-4. Update context.md current phase
-5. Create next phase directory if needed
-6. Commit with message: `docs: complete phase NN`
-
----
-
-## Session Management
-
-### Session Start Procedure
-
-**Objective:** Load context and confirm understanding
-
-1. **Load memory bank files**
-   - Read brief.md (foundational context)
-   - Read context.md (current state and next steps)
-   - Scan architecture.md and tech.md as needed
-
-2. **Confirm context**
-   - Display: `[Memory Bank: Active | Project: astronomy-rag-corpus]`
-   - Summarize: Current phase, immediate next steps
-
-3. **Verify currency**
-   - Check "Last Updated" in context.md
-   - If stale, flag for review
-
----
-
-### Session End Procedure
-
-**Objective:** Update memory bank with session outcomes
-
-1. **Update context.md**
-   - Add accomplishments
-   - Update next steps
-   - Document decisions
-   - Update timestamp
-
-2. **Update other files if needed**
-   - architecture.md if design changed
-   - tech.md if dependencies changed
-
-3. **Commit changes**
-   ```bash
-   git add .kilocode/rules/memory-bank/
-   git commit -m "chore: update memory bank"
-   ```
-
----
-
 ## Quality Checklists
 
-### Code Quality Checklist
+### Code Quality
 - [ ] Follows script header template from documentation-standards
 - [ ] Type hints on all function signatures
 - [ ] NumPy-style docstrings
 - [ ] Error handling for network/database failures
 - [ ] Rate limiting for external API calls
 
-### Documentation Quality Checklist
+### Documentation Quality
 - [ ] YAML frontmatter with appropriate tags
 - [ ] Semantic section numbering preserved
 - [ ] Links to related documents
 - [ ] Updated date in frontmatter
 
-### Ingestion Quality Checklist
+### Ingestion Quality
 - [ ] Bibcode present and valid
 - [ ] Text extracted without corruption (spot-check math notation)
 - [ ] Citations extracted and inserted into Neo4j
