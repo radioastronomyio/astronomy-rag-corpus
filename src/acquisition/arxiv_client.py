@@ -270,14 +270,17 @@ def download_source(arxiv_id: str, output_dir: Path | str) -> Path:
             raise SourceUnavailableError(f"Source file is empty for {arxiv_id}")
         
         # Log metadata
-        _log_download_metadata(
-            output_dir=output_dir,
-            arxiv_id=arxiv_id,
-            artifact_type="source",
-            file_size_bytes=file_size,
-            page_count=None,
-            validation_status="valid",
-        )
+        try:
+            _log_download_metadata(
+                output_dir=output_dir,
+                arxiv_id=arxiv_id,
+                artifact_type="source",
+                file_size_bytes=file_size,
+                page_count=None,
+                validation_status="valid",
+            )
+        except Exception as log_err:
+            logger.warning(f"Metadata logging failed for {arxiv_id}: {log_err}")
         
         logger.info(f"Successfully downloaded source: {output_path} ({file_size} bytes)")
         return output_path
