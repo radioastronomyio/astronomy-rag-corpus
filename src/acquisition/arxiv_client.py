@@ -94,6 +94,8 @@ def download_source(arxiv_id: str, output_dir: Path | str) -> Path:
         raise
     except SourceUnavailableError:
         raise
+    except OSError:
+        raise
     except Exception as e:
         # Categorize unknown exceptions by inspecting error message content.
         # This is fragile but covers common arxiv library failure modes.
