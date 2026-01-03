@@ -39,17 +39,29 @@ astronomy-rag-corpus/
 │   ├── data-science-infrastructure.md
 │   └── documentation-standards/  # Templates
 ├── scratch/                      # Working files (gitignored)
+├── src/                          # Source code
+│   ├── acquisition/              # arXiv/ADS paper retrieval
+│   │   ├── arxiv_client.py       # Download source and PDF
+│   │   ├── source_extractor.py   # Extract and organize tarballs
+│   │   └── __init__.py
+│   ├── logging_config.py         # Centralized logging setup
+│   └── __init__.py
+├── test_output/                  # Test artifacts (gitignored)
+│   ├── raw/                      # Downloaded files
+│   └── extracted/                # Extracted source trees
 ├── work-logs/                    # Milestone development
-│   └── 01-ideation-and-setup/
+│   ├── 01-ideation-and-setup/
+│   ├── 02-github-project-frameout/
+│   └── 03-arxiv-client-implementation/
 └── README.md
 ```
 
 **Future directories (as phases complete):**
-- `src/harvester/` — ADS/arXiv acquisition scripts
 - `src/extraction/` — LaTeX parsing, PDF fallback
 - `src/retrieval/` — Hybrid search implementation
 - `src/agent/` — LangGraph workflows
 - `src/mcp/` — MCP server implementations
+- `src/harvester/` — Bulk ADS/arXiv acquisition
 
 ## Design Patterns and Principles
 

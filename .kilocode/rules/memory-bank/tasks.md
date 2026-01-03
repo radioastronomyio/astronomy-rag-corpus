@@ -1,50 +1,56 @@
 # Astronomy RAG Corpus Tasks
 
-> **Source of Truth:** [GitHub Project Board](https://github.com/CrainBramp/astronomy-rag-corpus/projects)
-> **Last Synced:** 2025-01-03
+> **Source of Truth:** [GitHub Project Board](https://github.com/radioastronomyio/astronomy-rag-corpus/projects)
+> **Last Synced:** 2026-01-03
 
 ## Project Structure
 
 Three milestones covering the core pipeline: Acquisition → Extraction → Storage.
 
-### Milestone 1: Acquisition
+### Milestone 1: Acquisition ✅ Complete
 
-Paper discovery and artifact retrieval from arXiv/ADS.
+Paper discovery and artifact retrieval from arXiv.
 
-| Task | Issue | Status |
-|------|-------|--------|
-| 1.1 Select Seed Paper | #1 | ✅ Done |
-| 1.2 Define Storage Paths | #2 | ✅ Done |
-| 1.3 Implement arXiv Client | #3 | 🔄 In Progress |
-| 1.4 Download Artifacts | #4 | ⏳ Ready |
-| 1.5 Extract and Organize Source | #5 | 📋 Backlog |
+| Task | Issue | Status | Notes |
+|------|-------|--------|-------|
+| 1.1 Select Seed Paper | #1 | ✅ Done | DESIVAST DR1 (arXiv:2411.00148) |
+| 1.2 Define Storage Paths | #2 | ✅ Done | /mnt/ai-ml/data/rag-corpus (gpu01) |
+| 1.3 Implement arXiv Client | #3 | ✅ Done | download_source() in arxiv_client.py |
+| 1.4 Download Artifacts | #4 | ✅ Done | download_pdf() + metadata CSV |
+| 1.5 Extract and Organize Source | #5 | ✅ Done | extract_source() with security validation |
+
+**Deliverables:**
+- `src/acquisition/arxiv_client.py` — LaTeX source and PDF download
+- `src/acquisition/source_extractor.py` — Tarball extraction with manifest
+- Metadata tracking via download_metadata.csv
+- Test artifacts in test_output/raw/ and test_output/extracted/
 
 ### Milestone 2: Extraction
 
 LaTeX parsing, text cleaning, and structure preservation.
 
-| Task | Issue | Status |
-|------|-------|--------|
-| 2.1 Evaluate Extraction Tools | #6 | 📋 Backlog |
-| 2.2 Implement LaTeX Parser | #7 | 📋 Backlog |
-| 2.3 Preserve Document Structure | #8 | 📋 Backlog |
-| 2.4 Handle Math Notation | #9 | 📋 Backlog |
-| 2.5 Implement PDF Fallback | #10 | 📋 Backlog |
-| 2.6 Validate Output Quality | #11 | 📋 Backlog |
+| Task | Issue | Status | Notes |
+|------|-------|--------|-------|
+| 2.1 Evaluate Extraction Tools | #6 | ⏳ Ready | pylatexenc, TexSoup, pandoc |
+| 2.2 Implement LaTeX Parser | #7 | 📋 Backlog | |
+| 2.3 Preserve Document Structure | #8 | 📋 Backlog | Section/paragraph boundaries |
+| 2.4 Handle Math Notation | #9 | 📋 Backlog | Strategy TBD |
+| 2.5 Implement PDF Fallback | #10 | 📋 Backlog | Source→PDF orchestration |
+| 2.6 Validate Output Quality | #11 | 📋 Backlog | Manual review vs original |
 
 ### Milestone 3: Storage
 
 Database provisioning, embedding pipeline, and retrieval.
 
-| Task | Issue | Status |
-|------|-------|--------|
-| 3.1 Provision Database | #12 | 📋 Backlog |
-| 3.2 Design Schema | #13 | 📋 Backlog |
-| 3.3 Evaluate Embedding Models | #14 | 📋 Backlog |
-| 3.4 Implement Chunking | #15 | 📋 Backlog |
-| 3.5 Generate and Store Embeddings | #16 | 📋 Backlog |
-| 3.6 Build Retrieval Function | #17 | 📋 Backlog |
-| 3.7 Validate End-to-End | #18 | 📋 Backlog |
+| Task | Issue | Status | Notes |
+|------|-------|--------|-------|
+| 3.1 Provision Database | #12 | 📋 Backlog | astronomy_rag_corpus on pgsql01 |
+| 3.2 Design Schema | #13 | 📋 Backlog | papers, chunks, embeddings |
+| 3.3 Evaluate Embedding Models | #14 | 📋 Backlog | MiniLM, BGE, astronomy-specific |
+| 3.4 Implement Chunking | #15 | 📋 Backlog | Section-boundary aware |
+| 3.5 Generate and Store Embeddings | #16 | 📋 Backlog | Batch on gpu01 |
+| 3.6 Build Retrieval Function | #17 | 📋 Backlog | Semantic query + attribution |
+| 3.7 Validate End-to-End | #18 | 📋 Backlog | Query returns relevant chunks |
 
 ---
 
@@ -129,6 +135,7 @@ Database provisioning, embedding pipeline, and retrieval.
 - [ ] NumPy-style docstrings
 - [ ] Error handling for network/database failures
 - [ ] Rate limiting for external API calls
+- [ ] Dual-audience comments (AI NOTEs where appropriate)
 
 ### Documentation Quality
 - [ ] YAML frontmatter with appropriate tags

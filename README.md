@@ -94,9 +94,9 @@ LaTeX-first extraction is critical — PDF-to-text conversion corrupts mathemati
 | Phase | Name | Status | Description |
 |-------|------|--------|-------------|
 | 01 | [Ideation and Setup](work-logs/01-ideation-and-setup/README.md) | ✅ Complete | GDR review, repo initialization |
-| 02 | [GitHub Frameout](work-logs/02-github-frameout/README.md) | ✅ Complete | Milestones, tasks, GitHub labels |
-| 03 | Acquisition | ⬜ Next | arXiv retrieval, seed paper artifacts |
-| 04 | Extraction | ⬜ Planned | LaTeX/PDF text extraction |
+| 02 | [GitHub Frameout](work-logs/02-github-project-frameout/README.md) | ✅ Complete | Milestones, tasks, GitHub labels |
+| 03 | [Acquisition](work-logs/03-arxiv-client-implementation/README.md) | ✅ Complete | arXiv client, PDF download, source extraction |
+| 04 | Extraction | ⬜ Next | LaTeX/PDF text extraction |
 | 05 | Storage | ⬜ Planned | Database, embeddings, retrieval |
 | 06 | Harvester | ⬜ Planned | Bulk acquisition, seed corpus population |
 | 07 | Hybrid Engine | ⬜ Planned | Neo4j graph construction |
@@ -140,8 +140,13 @@ astronomy-rag-corpus/
 │   ├── data-science-infrastructure.md
 │   └── documentation-standards/  # Templates and tagging
 ├── scratch/                      # Working files (gitignored)
+├── src/                          # Source code
+│   ├── acquisition/              # arXiv/ADS paper retrieval
+│   └── logging_config.py         # Centralized logging
 ├── work-logs/                    # Milestone-based development
-│   └── 01-ideation-and-setup/
+│   ├── 01-ideation-and-setup/
+│   ├── 02-github-project-frameout/
+│   └── 03-arxiv-client-implementation/
 ├── LICENSE
 └── README.md                     # This file
 ```
@@ -200,4 +205,4 @@ This repository benefits from open source programs that provide free or discount
 
 ---
 
-Last Updated: January 3, 2026 | Current Phase: 02 GitHub Frameout Complete
+Last Updated: January 3, 2026 | Current Phase: 03 Acquisition Complete

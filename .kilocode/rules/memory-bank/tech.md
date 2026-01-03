@@ -24,6 +24,7 @@ arxiv>=2.0.0           # arXiv paper retrieval
 ads>=0.12.0            # NASA ADS bibliographic data
 pylatexenc>=2.10       # LaTeX text extraction
 pymupdf>=1.23.0        # PDF fallback extraction
+pypdf>=3.0.0           # PDF validation and page count
 astropy>=6.0.0         # FITS header handling
 psycopg2-binary>=2.9   # PostgreSQL connection
 neo4j>=5.0.0           # Neo4j driver
@@ -31,6 +32,7 @@ langchain>=0.1.0       # LLM orchestration base
 langgraph>=0.0.20      # Stateful agent workflows
 sentence-transformers  # Embedding generation
 python-dotenv>=1.0.0   # Environment configuration
+filelock>=3.0.0        # Thread-safe file operations
 ```
 
 ### Optional Dependencies

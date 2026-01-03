@@ -22,11 +22,13 @@ Milestone-based development history. Each phase directory contains scripts, outp
 
 ```
 work-logs/
-├── 01-ideation-and-setup/      # Project initialization and architecture
+├── 01-ideation-and-setup/           # Project initialization and architecture
 │   └── README.md
-├── 02-github-frameout/         # Milestones, tasks, and labels
+├── 02-github-project-frameout/      # Milestones, tasks, and labels
 │   └── README.md
-└── README.md                   # This file
+├── 03-arxiv-client-implementation/  # Milestone 1: Acquisition
+│   └── README.md
+└── README.md                        # This file
 ```
 
 ---
@@ -36,9 +38,9 @@ work-logs/
 | Phase | Name | Status | Description |
 |-------|------|--------|-------------|
 | 01 | [Ideation and Setup](01-ideation-and-setup/README.md) | ✅ Complete | GDR review, repo initialization, documentation standards |
-| 02 | [GitHub Frameout](02-github-frameout/README.md) | ✅ Complete | Milestones, tasks, GitHub labels |
-| 03 | Acquisition | ⬜ Next | arXiv retrieval, seed paper artifacts |
-| 04 | Extraction | ⬜ Planned | LaTeX/PDF text extraction |
+| 02 | [GitHub Frameout](02-github-project-frameout/README.md) | ✅ Complete | Milestones, tasks, GitHub labels |
+| 03 | [Acquisition](03-arxiv-client-implementation/README.md) | ✅ Complete | arXiv client, PDF download, source extraction |
+| 04 | Extraction | ⬜ Next | LaTeX/PDF text extraction |
 | 05 | Storage | ⬜ Planned | Database, embeddings, retrieval |
 | 06 | Harvester | ⬜ Planned | Bulk acquisition, seed corpus population |
 | 07 | Hybrid Engine | ⬜ Planned | Neo4j graph construction |
