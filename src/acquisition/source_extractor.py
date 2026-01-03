@@ -92,7 +92,7 @@ def _find_main_tex(extraction_dir: Path) -> Path:
                         relative_path = tex_file.relative_to(extraction_dir)
                         logger.debug(f"Found main tex file: {relative_path}")
                         return relative_path
-        except (OSError, UnicodeDecodeError) as e:
+        except OSError as e:
             logger.warning(f"Could not read {tex_file}: {e}")
             continue
     
