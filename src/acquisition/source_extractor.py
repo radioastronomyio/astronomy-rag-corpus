@@ -232,7 +232,7 @@ def extract_source(
                         )
             
             # Extract all members
-            tar.extractall(path=extraction_dir)
+            tar.extractall(path=extraction_dir, filter="data")
             logger.debug(f"Extracted {len(tar.getmembers())} members")
         
         logger.info(f"Extraction successful: {extraction_dir}")
