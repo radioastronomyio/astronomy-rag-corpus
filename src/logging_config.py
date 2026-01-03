@@ -23,7 +23,15 @@ def setup_logging(level: str = "INFO") -> None:
     # are cleared below) but wasteful. If logging seems broken, check that this
     # was called before any getLogger() usage.
     
-    log_level = getattr(logging, level.upper(), logging.INFO)
+    # Defensive handling: ensure level is a valid string before processing.
+    # Protects against None being passed explicitly or invalid level names.
+    if not level or not isinstance(level, str):
+        level = "INFO"
+    
+    log_level = getattr(logging, level.upper(), None)
+    if log_level is None:
+        # Invalid level string (e.g., "VERBOSE") - fall back to INFO
+        log_level = logging.INFO
     
     root_logger = logging.getLogger()
     root_logger.setLevel(log_level)
