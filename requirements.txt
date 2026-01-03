@@ -20,6 +20,7 @@
 # Acquisition (Phase 03)
 # -----------------------------------------------------------------------------
 arxiv>=2.0.0                    # arXiv API wrapper for paper retrieval
+filelock>=3.0.0                 # File locking for concurrent CSV writes
 
 # -----------------------------------------------------------------------------
 # Extraction (Phase 04)
