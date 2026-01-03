@@ -26,6 +26,7 @@ arxiv>=2.0.0                    # arXiv API wrapper for paper retrieval
 # -----------------------------------------------------------------------------
 pylatexenc>=2.10                # LaTeX text extraction
 pymupdf>=1.23.0                 # PDF fallback extraction
+pypdf>=3.0.0                   # PDF validation
 
 # -----------------------------------------------------------------------------
 # Storage (Phase 05)

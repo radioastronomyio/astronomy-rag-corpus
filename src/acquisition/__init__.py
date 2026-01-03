@@ -8,13 +8,17 @@ This package handles retrieval of source materials from external repositories
 from .arxiv_client import (
     NetworkError,
     PaperNotFoundError,
+    PDFCorruptError,
     SourceUnavailableError,
+    download_pdf,
     download_source,
 )
 
 __all__ = [
     "download_source",
+    "download_pdf",
     "PaperNotFoundError",
     "SourceUnavailableError",
+    "PDFCorruptError",
     "NetworkError",
 ]
