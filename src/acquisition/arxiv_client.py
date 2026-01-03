@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import arxiv
+from filelock import FileLock
 from pypdf import PdfReader
 
 logger = logging.getLogger(__name__)
@@ -64,32 +65,35 @@ def _log_download_metadata(
     # If adding columns, update fieldnames list and all _log_download_metadata
     # call sites to provide the new values.
     csv_path = output_dir / "download_metadata.csv"
+    lock_path = csv_path.with_suffix('.csv.lock')
     
-    # Create CSV with headers if it doesn't exist
-    file_exists = csv_path.exists()
-    
-    with open(csv_path, "a", newline="", encoding="utf-8") as csvfile:
-        fieldnames = [
-            "timestamp",
-            "arxiv_id",
-            "artifact_type",
-            "file_size_bytes",
-            "page_count",
-            "validation_status",
-        ]
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    # Use file lock to prevent race condition where concurrent calls both see
+    # the file doesn't exist and each write headers, duplicating the header row.
+    with FileLock(lock_path, timeout=10):
+        file_exists = csv_path.exists()
         
-        if not file_exists:
-            writer.writeheader()
-        
-        writer.writerow({
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "arxiv_id": arxiv_id,
-            "artifact_type": artifact_type,
-            "file_size_bytes": file_size_bytes,
-            "page_count": page_count,
-            "validation_status": validation_status,
-        })
+        with open(csv_path, "a", newline="", encoding="utf-8") as csvfile:
+            fieldnames = [
+                "timestamp",
+                "arxiv_id",
+                "artifact_type",
+                "file_size_bytes",
+                "page_count",
+                "validation_status",
+            ]
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            
+            if not file_exists:
+                writer.writeheader()
+            
+            writer.writerow({
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "arxiv_id": arxiv_id,
+                "artifact_type": artifact_type,
+                "file_size_bytes": file_size_bytes,
+                "page_count": page_count,
+                "validation_status": validation_status,
+            })
     
     logger.debug(f"Logged metadata to {csv_path}")
 
@@ -266,14 +270,17 @@ def download_source(arxiv_id: str, output_dir: Path | str) -> Path:
             raise SourceUnavailableError(f"Source file is empty for {arxiv_id}")
         
         # Log metadata
-        _log_download_metadata(
-            output_dir=output_dir,
-            arxiv_id=arxiv_id,
-            artifact_type="source",
-            file_size_bytes=file_size,
-            page_count=None,
-            validation_status="valid",
-        )
+        try:
+            _log_download_metadata(
+                output_dir=output_dir,
+                arxiv_id=arxiv_id,
+                artifact_type="source",
+                file_size_bytes=file_size,
+                page_count=None,
+                validation_status="valid",
+            )
+        except Exception as log_err:
+            logger.warning(f"Metadata logging failed for {arxiv_id}: {log_err}")
         
         logger.info(f"Successfully downloaded source: {output_path} ({file_size} bytes)")
         return output_path
