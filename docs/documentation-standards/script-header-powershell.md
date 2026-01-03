@@ -35,7 +35,7 @@
     [Description of what this invocation does]
 
 .LINK
-    https://github.com/Proxmox-Astronomy-Lab/astronomy-rag-corpus
+    https://github.com/radioastronomyio/astronomy-rag-corpus
 #>
 
 # =============================================================================
@@ -127,7 +127,7 @@ Standard sections (in order):
     Tests all corpus database connections and reports status.
 
 .LINK
-    https://github.com/Proxmox-Astronomy-Lab/astronomy-rag-corpus
+    https://github.com/radioastronomyio/astronomy-rag-corpus
 #>
 
 # =============================================================================

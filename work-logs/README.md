@@ -3,8 +3,8 @@
 title: "Work Logs"
 description: "Milestone-based development history for the astronomy RAG corpus"
 author: "VintageDon"
-date: "2025-12-29"
-version: "1.0"
+date: "2026-01-03"
+version: "1.1"
 status: "Active"
 tags:
   - type: directory-readme
@@ -24,6 +24,8 @@ Milestone-based development history. Each phase directory contains scripts, outp
 work-logs/
 ├── 01-ideation-and-setup/      # Project initialization and architecture
 │   └── README.md
+├── 02-github-frameout/         # Milestones, tasks, and labels
+│   └── README.md
 └── README.md                   # This file
 ```
 
@@ -34,12 +36,14 @@ work-logs/
 | Phase | Name | Status | Description |
 |-------|------|--------|-------------|
 | 01 | [Ideation and Setup](01-ideation-and-setup/README.md) | ✅ Complete | GDR review, repo initialization, documentation standards |
-| 02 | Plan Review | ⬜ Next | Validate seed corpus against 2026 research priorities |
-| 03 | Foundation | ⬜ Planned | Walking skeleton: single paper ingestion → retrieval |
-| 04 | Harvester | ⬜ Planned | ADS/arXiv acquisition, seed corpus population |
-| 05 | Hybrid Engine | ⬜ Planned | Neo4j graph construction, hybrid retrieval |
-| 06 | Agent | ⬜ Planned | LangGraph state machine, multi-step research |
-| 07 | Interface | ⬜ Planned | MCP servers, Claude Code integration |
+| 02 | [GitHub Frameout](02-github-frameout/README.md) | ✅ Complete | Milestones, tasks, GitHub labels |
+| 03 | Acquisition | ⬜ Next | arXiv retrieval, seed paper artifacts |
+| 04 | Extraction | ⬜ Planned | LaTeX/PDF text extraction |
+| 05 | Storage | ⬜ Planned | Database, embeddings, retrieval |
+| 06 | Harvester | ⬜ Planned | Bulk acquisition, seed corpus population |
+| 07 | Hybrid Engine | ⬜ Planned | Neo4j graph construction |
+| 08 | Agent | ⬜ Planned | LangGraph state machine |
+| 09 | Interface | ⬜ Planned | MCP servers, Claude Code integration |
 
 ---
 

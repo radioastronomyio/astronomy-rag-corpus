@@ -94,16 +94,18 @@ LaTeX-first extraction is critical — PDF-to-text conversion corrupts mathemati
 | Phase | Name | Status | Description |
 |-------|------|--------|-------------|
 | 01 | [Ideation and Setup](work-logs/01-ideation-and-setup/README.md) | ✅ Complete | GDR review, repo initialization |
-| 02 | Plan Review | ⬜ Next | Validate seed corpus against 2026 research priorities |
-| 03 | Foundation | ⬜ Planned | Walking skeleton: single paper → retrieval loop |
-| 04 | Harvester | ⬜ Planned | ADS/arXiv acquisition, seed corpus population |
-| 05 | Hybrid Engine | ⬜ Planned | Neo4j graph construction, hybrid retrieval |
-| 06 | Agent | ⬜ Planned | LangGraph state machine, multi-step research |
-| 07 | Interface | ⬜ Planned | MCP servers, Claude Code integration |
+| 02 | [GitHub Frameout](work-logs/02-github-frameout/README.md) | ✅ Complete | Milestones, tasks, GitHub labels |
+| 03 | Acquisition | ⬜ Next | arXiv retrieval, seed paper artifacts |
+| 04 | Extraction | ⬜ Planned | LaTeX/PDF text extraction |
+| 05 | Storage | ⬜ Planned | Database, embeddings, retrieval |
+| 06 | Harvester | ⬜ Planned | Bulk acquisition, seed corpus population |
+| 07 | Hybrid Engine | ⬜ Planned | Neo4j graph construction |
+| 08 | Agent | ⬜ Planned | LangGraph state machine |
+| 09 | Interface | ⬜ Planned | MCP servers, Claude Code integration |
 
-### Walking Skeleton (Phase 03)
+### Walking Skeleton (Phases 03-05)
 
-The minimal end-to-end loop proving the architecture:
+The minimal end-to-end loop proving the architecture, split across three milestones:
 
 ```
 arXiv ID → download source → LaTeX extraction → clean text + bibcode → PostgreSQL → semantic query → return with attribution
@@ -198,4 +200,4 @@ This repository benefits from open source programs that provide free or discount
 
 ---
 
-Last Updated: December 29, 2025 | Current Phase: 01 Ideation and Setup Complete
+Last Updated: January 3, 2026 | Current Phase: 02 GitHub Frameout Complete

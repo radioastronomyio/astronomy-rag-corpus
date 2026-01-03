@@ -18,7 +18,7 @@ Author       : VintageDon (https://github.com/vintagedon)
 ORCID        : 0009-0008-7695-4093
 Created      : YYYY-MM-DD
 Phase        : [Phase NN - Phase Name]
-Link         : https://github.com/Proxmox-Astronomy-Lab/astronomy-rag-corpus
+Link         : https://github.com/radioastronomyio/astronomy-rag-corpus
 
 Description
 -----------
@@ -172,7 +172,7 @@ Author       : VintageDon (https://github.com/vintagedon)
 ORCID        : 0009-0008-7695-4093
 Created      : 2025-12-29
 Phase        : Phase 01 - Foundation
-Link         : https://github.com/Proxmox-Astronomy-Lab/astronomy-rag-corpus
+Link         : https://github.com/radioastronomyio/astronomy-rag-corpus
 
 Description
 -----------
