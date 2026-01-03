@@ -218,7 +218,7 @@ def extract_source(
                     )
                 
                 # Check symlinks don't point outside extraction directory
-                if member.issym():
+                if member.issym() or member.islnk():
                     link_target = Path(member.linkname)
                     # Resolve relative to the directory containing the symlink
                     symlink_dir = member_path.parent
@@ -227,7 +227,7 @@ def extract_source(
                         resolved_target.relative_to(extraction_dir_resolved)
                     except ValueError:
                         raise CorruptTarballError(
-                            f"Tarball contains symlink escaping extraction dir: "
+                            f"Tarball contains link escaping extraction dir: "
                             f"{member.name} -> {member.linkname}"
                         )
             
