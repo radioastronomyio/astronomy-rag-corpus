@@ -1,11 +1,11 @@
 <!--
 ---
 title: "Milestone 1: Acquisition - arXiv Client Implementation"
-description: "arXiv source and PDF downloader for corpus acquisition pipeline"
+description: "arXiv source/PDF downloader and source extraction for corpus acquisition pipeline"
 author: "VintageDon - https://github.com/vintagedon"
 ai_contributor: "Claude Opus 4.5, GLM 4.7 (via KiloCode)"
 date: "2026-01-03"
-version: "1.1"
+version: "1.2"
 phase: milestone-01
 tags:
   - domain: ingestion
@@ -19,15 +19,15 @@ related_documents:
 
 # Milestone 1: Acquisition — arXiv Client Implementation
 
-> Compiled from: 3 sessions | January 2026  
-> Status: Complete (Tasks 1.3, 1.4)  
-> Key Outcome: Functional arXiv client downloading both LaTeX source and PDF with validation, metadata tracking, and custom exceptions
+> Compiled from: 4 sessions | January 2026  
+> Status: Complete (Tasks 1.3, 1.4, 1.5)  
+> Key Outcome: Functional acquisition module downloading LaTeX source and PDF, extracting and organizing source files with security validation
 
 ---
 
 ## 1. Objective
 
-Implement the acquisition stage of the walking skeleton: an arXiv client that downloads both LaTeX source tarballs and PDFs. This establishes parallel artifact paths for the ingestion pipeline — source for LaTeX extraction, PDF as fallback. Fallback orchestration logic comes in Task 2.5.
+Implement the acquisition stage of the walking skeleton: an arXiv client that downloads both LaTeX source tarballs and PDFs, then extracts and organizes source files for the extraction pipeline. This establishes parallel artifact paths for the ingestion pipeline — source for LaTeX extraction, PDF as fallback. Fallback orchestration logic comes in Task 2.5.
 
 ---
 
@@ -203,17 +203,113 @@ Status: SUCCESS
 
 ---
 
-## 5. Files Produced
+## 5. Task 1.5: Extract and Organize Source
+
+### Implementation Decisions
+
+#### New Module
+
+| File | Purpose |
+|------|--------|
+| `src/acquisition/source_extractor.py` | Tarball extraction and file categorization |
+| `src/acquisition/test_source_extractor.py` | Manual validation script |
+
+#### Interface Design
+
+```python
+def extract_source(tarball_path: Path | str, output_dir: Path | str) -> SourceManifest
+```
+
+Extracts tarball to `{output_dir}/{arxiv_id}/` and returns a manifest categorizing all files.
+
+#### SourceManifest Dataclass
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `arxiv_id` | str | Paper identifier |
+| `main_tex` | Path | Primary .tex file (contains `\documentclass`) |
+| `auxiliary_tex` | list[Path] | Other .tex files (chapters, appendices) |
+| `bib_files` | list[Path] | Bibliography files (.bib) |
+| `figure_files` | list[Path] | Images (.png, .jpg, .pdf, .eps) |
+| `style_files` | list[Path] | LaTeX style/class files (.sty, .cls) |
+| `other_files` | list[Path] | Everything else |
+| `extraction_dir` | Path | Root of extracted content |
+
+#### New Exceptions
+
+| Exception | Meaning |
+|-----------|--------|
+| `ExtractionError` | Generic extraction failure |
+| `MainTexNotFoundError` | No .tex file contains `\documentclass` |
+| `CorruptTarballError` | Tarball is corrupted or contains unsafe paths |
+
+#### Security Validation
+
+Two-layer security check before extraction:
+
+1. **Path traversal** — Uses `Path.resolve()` + `relative_to()` to ensure all paths stay within extraction directory
+2. **Symlink validation** — Checks that symlink targets resolve within extraction directory
+
+Malicious tarballs (path traversal, external symlinks) raise `CorruptTarballError`.
+
+### GLM/KiloCode Observations (Task 1.5)
+
+**What Worked:**
+
+- Generated complete module from detailed prompt
+- Correct dataclass structure
+- Good file categorization logic
+- Proper exception hierarchy
+
+**Issues Requiring Correction:**
+
+| Issue | Severity | Resolution |
+|-------|----------|------------|
+| Path traversal check | High | Original used substring matching (`".." in path`). Fixed to use `Path.resolve()` + `relative_to()` for proper containment check. |
+| Missing symlink validation | High | Added check that symlink targets resolve within extraction directory. |
+| Python execution pattern | Minor | KiloCode kept using full interpreter path instead of activated venv. Need to update KC custom instructions. |
+
+**Review provided via KiloCode Code Review function** — first use of KC's built-in review caught both security issues.
+
+### Validation (Task 1.5)
+
+| Check | Status | Evidence |
+|-------|--------|----------|
+| Extraction executes | ✅ Pass | `test_source_extractor.py` completes |
+| Main tex identified | ✅ Pass | `ms.tex` found as main document |
+| Files categorized | ✅ Pass | 52 figures, 1 bib, 0 aux tex, 3 other |
+| Security validation | ✅ Pass | Path traversal check uses resolve() |
+| Symlink check | ✅ Pass | External symlinks would raise error |
+
+### Test Output
+
+```
+arXiv ID: 2411.00148
+Extraction dir: test_output/extracted/2411.00148
+Main tex: ms.tex
+Auxiliary tex: 0
+Bib files: 1 (ms.bib)
+Figure files: 52
+Style files: 0
+Other files: 3 (aastex631.cls, ms.bbl, orcid-ID.png)
+Status: SUCCESS
+```
+
+---
+
+## 6. Files Produced
 
 | File | Lines | Purpose |
 |------|-------|---------|
 | `src/__init__.py` | 12 | Package metadata |
 | `src/logging_config.py` | 35 | Centralized logging setup |
-| `src/acquisition/__init__.py` | 22 | Module exports (updated for PDF) |
+| `src/acquisition/__init__.py` | 30 | Module exports (updated for 1.5) |
 | `src/acquisition/arxiv_client.py` | 280 | arXiv downloader (source + PDF) |
-| `src/acquisition/test_arxiv_client.py` | 85 | Manual test script (both paths) |
+| `src/acquisition/source_extractor.py` | 290 | Tarball extraction and categorization |
+| `src/acquisition/test_arxiv_client.py` | 85 | Manual test script (download) |
+| `src/acquisition/test_source_extractor.py` | 75 | Manual test script (extraction) |
 | `src/README.md` | 55 | Package interior README |
-| `src/acquisition/README.md` | 60 | Module interior README |
+| `src/acquisition/README.md` | 80 | Module interior README (updated) |
 
 ### Modified Files
 
@@ -224,7 +320,7 @@ Status: SUCCESS
 
 ---
 
-## 6. Lessons Learned
+## 7. Lessons Learned
 
 ### Technical
 
@@ -250,30 +346,32 @@ Status: SUCCESS
 
 ---
 
-## 7. Next Steps
+## 8. Next Steps
 
-This completes Milestone 1: Acquisition (Tasks 1.3, 1.4).
+This completes Milestone 1: Acquisition (Tasks 1.3, 1.4, 1.5).
 
 Immediate next tasks:
 
-- **Task 1.5:** Extract text from LaTeX source (Milestone 2: Extraction)
-- **Task 2.5:** Implement source→PDF fallback logic (Milestone 2)
+- **Task 2.1:** Evaluate extraction tools (pylatexenc, TexSoup, pandoc)
+- **Task 2.2:** Implement LaTeX parser
+- **Task 2.5:** Implement source→PDF fallback logic
 
-The pipeline continues: downloaded artifacts → LaTeX extraction → clean text → database.
+The pipeline continues: organized source files → LaTeX parsing → clean text → database.
 
 ---
 
-## 8. Provenance
+## 9. Provenance
 
 | Item | Value |
 |------|-------|
 | Development machine | Windows workstation |
 | Python interpreter | `D:\development-environments\ml-compat-3.12\python.exe` |
 | Target runtime | gpu01 (Linux, `/mnt/ai-ml/rag-corpus`) |
-| Test artifacts | `test_output/raw/2411.00148.{tar.gz,pdf}` |
+| Test artifacts | `test_output/raw/2411.00148.{tar.gz,pdf}`, `test_output/extracted/2411.00148/` |
 | Branch (1.3) | `3-task-13-implement-arxiv-client` |
 | Branch (1.4) | `task-1_4-download-artifacts` |
-| Sessions | 3 (1.3 planning, 1.3 impl, 1.4 impl+review) |
+| Branch (1.5) | `task-1_5-extract-organize-source` |
+| Sessions | 4 (1.3 planning, 1.3 impl, 1.4 impl+review, 1.5 impl+review) |
 
 ---
 

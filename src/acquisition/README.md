@@ -25,6 +25,7 @@ Paper source retrieval from arXiv and NASA ADS. Downloads LaTeX source tarballs 
 ```
 acquisition/
 ├── arxiv_client.py         # arXiv source and PDF downloader
+├── source_extractor.py      # LaTeX source tarball extractor
 ├── test_arxiv_client.py    # Manual validation script
 ├── __init__.py             # Package exports
 └── README.md               # This file
@@ -37,8 +38,9 @@ acquisition/
 | File | Description |
 |------|-------------|
 | `arxiv_client.py` | Downloads LaTeX source tarballs and PDFs from arXiv given an arXiv ID |
+| `source_extractor.py` | Extracts and categorizes LaTeX source tarballs into manifest |
 | `test_arxiv_client.py` | Manual test script; downloads seed paper to `test_output/raw/` |
-| `__init__.py` | Exports `download_source`, `download_pdf`, and custom exceptions |
+| `__init__.py` | Exports download functions, extract_source, and custom exceptions |
 
 ---
 
@@ -74,6 +76,32 @@ except PDFCorruptError:
 
 Both functions log metadata to `{output_dir}/download_metadata.csv` for tracking during iterative testing.
 
+### Extract LaTeX Source
+
+```python
+from acquisition import extract_source, MainTexNotFoundError, CorruptTarballError
+
+try:
+    manifest = extract_source("2411.00148.tar.gz", output_dir="./extracted")
+    print(f"Main tex: {manifest.main_tex}")
+    print(f"Auxiliary tex: {manifest.auxiliary_tex}")
+    print(f"Bib files: {manifest.bib_files}")
+    print(f"Figures: {manifest.figure_files}")
+except MainTexNotFoundError:
+    print("Could not identify main .tex file")
+except CorruptTarballError:
+    print("Tarball is corrupted or invalid")
+```
+
+The `SourceManifest` dataclass provides categorized lists of all extracted files:
+- `main_tex`: Primary .tex file (contains `\documentclass`)
+- `auxiliary_tex`: Other .tex files (chapters, appendices, includes)
+- `bib_files`: Bibliography files (.bib)
+- `figure_files`: Image files (.png, .jpg, .pdf, .eps, etc.)
+- `style_files`: LaTeX style/class files (.sty, .cls)
+- `other_files`: All other files (README, Makefile, etc.)
+- `extraction_dir`: Root directory of extracted content
+
 ---
 
 ## 4. Exceptions
@@ -84,6 +112,9 @@ Both functions log metadata to `{output_dir}/download_metadata.csv` for tracking
 | `SourceUnavailableError` | Paper exists but LaTeX source not available |
 | `PDFCorruptError` | Downloaded PDF fails validation (magic bytes or structure) |
 | `NetworkError` | Connection or timeout failure |
+| `CorruptTarballError` | Source tarball is corrupted or invalid |
+| `MainTexNotFoundError` | No .tex file containing `\documentclass` found |
+| `ExtractionError` | General extraction failure (file system, etc.) |
 
 ---
 
@@ -108,6 +139,7 @@ Both download functions append to `download_metadata.csv`:
 |-----------|---------|
 | `ads_client.py` | NASA ADS metadata and bibcode retrieval |
 | `batch_download.py` | Bulk acquisition with rate limiting |
+| `test_source_extractor.py` | Automated tests for extraction logic |
 | Fallback logic (Task 2.5) | Orchestration: try source, fall back to PDF |
 
 ---
