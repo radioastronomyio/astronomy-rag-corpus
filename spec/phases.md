@@ -32,20 +32,20 @@ Paper discovery and artifact retrieval from arXiv.
 | 1.4 Download Artifacts | #4 | ✅ Done | PDF download + metadata CSV |
 | 1.5 Extract and Organize Source | #5 | ✅ Done | `src/acquisition/source_extractor.py` with security validation |
 
-## Phase 04: Extraction ⏳ Ready
+## Phase 04: Extraction ✅ Complete
 
 LaTeX parsing, text cleaning, and structure preservation.
 
 | Task | Issue | Status | Notes |
 |------|-------|--------|-------|
-| 2.1 Evaluate Extraction Tools | #6 | ⏳ Ready | pylatexenc, Grobid, TexSoup, pandoc — see landscape.md |
-| 2.2 Implement LaTeX Parser | #7 | 📋 Backlog | |
-| 2.3 Preserve Document Structure | #8 | 📋 Backlog | Section/paragraph boundaries |
-| 2.4 Handle Math Notation | #9 | 📋 Backlog | Strategy TBD |
-| 2.5 Implement PDF Fallback | #10 | 📋 Backlog | Source→PDF orchestration |
-| 2.6 Validate Output Quality | #11 | 📋 Backlog | Manual review vs original |
+| 2.1 Evaluate Extraction Tools | #6 | ✅ Done | Decided: pylatexenc |
+| 2.2 Implement LaTeX Parser | #7 | ✅ Done | `src/extraction/latex_parser.py` |
+| 2.3 Preserve Document Structure | #8 | ✅ Done | Sections with hierarchy |
+| 2.4 Handle Math Notation | #9 | ✅ Done | Preserve raw LaTeX math |
+| 2.5 Implement PDF Fallback | #10 | ✅ Done | `src/extraction/pdf_extractor.py` + pipeline |
+| 2.6 Validate Output Quality | #11 | ✅ Done | 27 validation tests passing |
 
-**Landscape note:** PaperQA2 uses Grobid as their state-of-the-art parser. It handles sections, tables, and citations natively. Worth evaluating alongside pylatexenc in Task 2.1.
+**Landscape note:** PaperQA2 uses Grobid as their state-of-the-art parser. It handles sections, tables, and citations natively. Evaluated pylatexenc in Task 2.1 — sufficient for this project's needs.
 
 ## Phase 05: Storage 📋
 
