@@ -46,7 +46,9 @@ load_dotenv('/opt/global-env/research.env')
 - **Host:** radio-pgsql01 (`$PGSQL01_HOST` = 10.25.20.8)
 - **Port:** 5432
 - **Admin user:** `$PGSQL01_ADMIN_USER`
-- **Corpus database:** `astronomy_rag_corpus` (not yet created — Phase 05)
+- **Corpus database:** `astronomy_rag_corpus` (created, schema applied)
+- **Schema:** `papers` + `chunks` tables, pgvector extension, HNSW + GIN indexes
+- **Embedding model:** nomic-embed-text (768 dimensions)
 
 ### Neo4j (Topological Layer)
 

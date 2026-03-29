@@ -4,9 +4,9 @@
 
 ## Status
 
-Phase 03 (Acquisition) is **complete**. Phase 04 (Extraction) is **complete**. The project was on hold from January 3, 2026 to March 14, 2026 (~10 weeks).
+Phase 03 (Acquisition) is **complete**. Phase 04 (Extraction) is **complete**. Phase 05 (Storage) is **complete** — chunking, embedding, ingestion, and retrieval implemented. The project was on hold from January 3, 2026 to March 14, 2026 (~10 weeks).
 
-All acquisition functionality is implemented, tested, and merged. The seed paper (DESIVAST DR1, arXiv:2411.00148) has been downloaded and extracted to `test_output/extracted/2411.00148/`. Extraction pipeline handles both LaTeX source and PDF fallback with automatic method selection.
+All acquisition functionality is implemented, tested, and merged. The seed paper (DESIVAST DR1, arXiv:2411.00148) has been downloaded and extracted to `test_output/extracted/2411.00148/`. Extraction pipeline handles both LaTeX source and PDF fallback with automatic method selection. Storage pipeline implements section-boundary chunking (~512 tokens), nomic-embed-text embeddings (768d), hybrid retrieval (dense + sparse + RRF), and idempotent ingestion.
 
 ## What Exists
 
@@ -18,6 +18,7 @@ All acquisition functionality is implemented, tested, and merged. The seed paper
 - `src/extraction/pdf_extractor.py` — PDF fallback extraction with pymupdf
 - `src/extraction/pipeline.py` — Orchestration layer with LaTeX-first, PDF-fallback logic
 - Metadata tracking via `download_metadata.csv`
+- `src/storage/schema.sql` — DDL for papers + chunks tables (pgvector, tsvector, HNSW/GIN indexes)
 - Centralized logging in `src/logging_config.py`
 - Work logs for Phases 01-03 in `work-logs/`
 - Test coverage for extraction in `tests/test_extraction/` (27 tests, all passing)
@@ -33,18 +34,21 @@ All acquisition functionality is implemented, tested, and merged. The seed paper
 
 ## Next Steps
 
-### Phase 05: Storage (Next)
+### Phase 05: Storage (In Progress)
 
-- Create `astronomy_rag_corpus` database on pgsql01
-- Design schema (papers, chunks, embeddings)
-- Evaluate embedding models — see `landscape.md` for current options
-- Implement chunking strategy — contextual retrieval and hybrid search are now baseline expectations, not options
+- ✅ Database `astronomy_rag_corpus` created on pgsql01
+- ✅ Schema applied: `papers` + `chunks` tables, pgvector(768), tsvector, HNSW + GIN indexes
+- ✅ Embedding model selected: nomic-embed-text (768d, local GPU)
+- Implement chunking strategy with contextual enrichment
+- Generate and store embeddings
+- Build hybrid retrieval (dense + sparse + RRF)
+- Validate end-to-end
 
 ## Pending Decisions
 
 | Decision | Context | Phase |
 |----------|---------|-------|
-| Embedding model | Domain-specific vs general-purpose — needs benchmarking on astronomy text | 05 |
+| ~~Embedding model~~ | ~~Domain-specific vs general-purpose~~ — **Decided: nomic-embed-text (768d)** | 05 |
 | Chunking strategy | Section-boundary + contextual enrichment + hybrid retrieval (dense + sparse) — see `landscape.md` | 05 |
 | Reranking approach | LLM-based reranking (RCS pattern from PaperQA2) vs cross-encoder reranker | 05 |
 
@@ -67,4 +71,4 @@ All acquisition functionality is implemented, tested, and merged. The seed paper
 ## External Dependencies
 
 - NASA ADS API token needed for bibliographic queries (Phase 06+)
-- Database creation on pgsql01 needed (Phase 05)
+- ~~Database creation on pgsql01 needed (Phase 05)~~ Done

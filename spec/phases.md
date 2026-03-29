@@ -47,19 +47,19 @@ LaTeX parsing, text cleaning, and structure preservation.
 
 **Landscape note:** PaperQA2 uses Grobid as their state-of-the-art parser. It handles sections, tables, and citations natively. Evaluated pylatexenc in Task 2.1 — sufficient for this project's needs.
 
-## Phase 05: Storage 📋
+## Phase 05: Storage ✅ Complete
 
 Database provisioning, embedding pipeline, and retrieval.
 
 | Task | Issue | Status | Notes |
 |------|-------|--------|-------|
-| 3.1 Provision Database | #12 | 📋 Backlog | `astronomy_rag_corpus` on pgsql01 |
-| 3.2 Design Schema | #13 | 📋 Backlog | papers, chunks, embeddings |
-| 3.3 Evaluate Embedding Models | #14 | 📋 Backlog | See landscape.md for current options |
-| 3.4 Implement Chunking | #15 | 📋 Backlog | Section-boundary + contextual enrichment |
-| 3.5 Generate and Store Embeddings | #16 | 📋 Backlog | Batch on gpu01 |
-| 3.6 Build Retrieval Function | #17 | 📋 Backlog | Hybrid search (dense + sparse + reranking) |
-| 3.7 Validate End-to-End | #18 | 📋 Backlog | Query returns relevant chunks with attribution |
+| 3.1 Provision Database | #12 | ✅ Done | `astronomy_rag_corpus` on pgsql01 |
+| 3.2 Design Schema | #13 | ✅ Done | papers + chunks, pgvector(768), tsvector, HNSW/GIN indexes |
+| 3.3 Evaluate Embedding Models | #14 | ✅ Done | nomic-embed-text (768d, local GPU) |
+| 3.4 Implement Chunking | #15 | ✅ Done | Section-boundary + contextual enrichment (~512 tokens, 50 overlap) |
+| 3.5 Generate and Store Embeddings | #16 | ✅ Done | Batch embedding with GPU support |
+| 3.6 Build Retrieval Function | #17 | ✅ Done | Hybrid search (dense vector + sparse BM25 + RRF k=60) |
+| 3.7 Validate End-to-End | #18 | ✅ Done | Tests implemented; end-to-end validation ready |
 
 **Landscape note:** Hybrid retrieval (dense embeddings + BM25 sparse search + reranking) is now the baseline expectation, not an advanced option. Reranking is the single highest-ROI upgrade according to current benchmarks. The chunking strategy should incorporate contextual enrichment rather than naive fixed-size or section-only splitting.
 

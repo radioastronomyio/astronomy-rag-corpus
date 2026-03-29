@@ -19,6 +19,8 @@ config.local.*
 # ----------------------------------------------------------------------------
 *-pending.md
 staging/
+spec/
+internal-files/
 
 # ----------------------------------------------------------------------------
 # IDE & EDITOR
@@ -163,9 +165,6 @@ wandb/
 outputs/
 runs/
 
-# Weights & Biases
-wandb/
-
 # TensorBoard
 logs/
 tensorboard/
@@ -200,12 +199,6 @@ site/
 *.log
 *.tmp
 *.temp
-
-# Sphinx
-docs/_build/
-
-# MkDocs
-site/
 
 # ----------------------------------------------------------------------------
 # OS GENERATED
@@ -258,4 +251,3 @@ scratch/
 local/
 .local/
 *.local
-.internal-files/

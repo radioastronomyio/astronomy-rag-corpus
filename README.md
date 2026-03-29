@@ -3,17 +3,17 @@
 title: "Astronomy RAG Corpus"
 description: "Specialized astronomical knowledge corpus for Retrieval-Augmented Generation supporting DESI research"
 author: "VintageDon"
-date: "2025-12-29"
-version: "1.0"
+date: "2026-03-29"
+version: "1.1"
 status: "Active"
 tags:
   - type: project-root
   - domain: [corpus, rag, astronomy]
   - tech: [python, postgresql, neo4j, langraph, mcp]
 related_documents:
-  - "[DESI Cosmic Void Galaxies](https://github.com/Proxmox-Astronomy-Lab/desi-cosmic-void-galaxies)"
-  - "[DESI QSO Anomaly Detection](https://github.com/Proxmox-Astronomy-Lab/desi-qso-anomaly-detection)"
-  - "[DESI Quasar Outflows](https://github.com/Proxmox-Astronomy-Lab/desi-quasar-outflows)"
+  - "[DESI Cosmic Void Galaxies](https://github.com/radioastronomyio/desi-cosmic-void-galaxies)"
+  - "[DESI QSO Anomaly Detection](https://github.com/radioastronomyio/desi-qso-anomaly-detection)"
+  - "[DESI Quasar Outflows](https://github.com/radioastronomyio/desi-quasar-outflows)"
 ---
 -->
 
@@ -26,9 +26,9 @@ related_documents:
 [![LangGraph](https://img.shields.io/badge/Agent-LangGraph-1C3C3C?logo=langchain)](https://langchain-ai.github.io/langgraph/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-![alt text](assets/repo-banner.jpg)
+![Repository Banner](assets/repo-banner.jpg)
 
-> A Federated Knowledge Core for astronomical research — decoupling semantic meaning from structural relationships to enable expert-level RAG and autonomous Deep Research agents.
+> A Federated Knowledge Core for astronomical research, decoupling semantic meaning from structural relationships to enable expert-level RAG and autonomous Deep Research agents.
 
 This repository builds a specialized knowledge corpus from astronomical literature, designed to support Retrieval-Augmented Generation (RAG) for the DESI research portfolio. The system grounds LLM responses in verifiable scientific data, preserves citation topology, and enables multi-step research workflows through Claude Code and MCP integration.
 
@@ -36,11 +36,11 @@ This repository builds a specialized knowledge corpus from astronomical literatu
 
 ## 🔭 Background
 
-Building a scientific RAG system extends far beyond document aggregation. Astronomical literature contains complex mathematical notation, specialized terminology, and a rapidly evolving research landscape. Most critically, an AI agent for scientific discovery cannot operate on ambiguous information — its knowledge must be traceable, accurate, and contextually rich.
+Building a scientific RAG system extends far beyond document aggregation. Astronomical literature contains complex mathematical notation, specialized terminology, and a rapidly evolving research landscape. Most critically, an AI agent for scientific discovery cannot operate on ambiguous information; its knowledge must be traceable, accurate, and contextually rich.
 
-Retrieval-Augmented Generation (RAG) addresses LLM hallucination by grounding responses in retrieved documents. Standard RAG retrieves semantically similar text chunks, but scientific questions often require understanding *how papers relate* — which work refutes another, who the key authors are, what foundational papers underpin a claim.
+Retrieval-Augmented Generation (RAG) addresses LLM hallucination by grounding responses in retrieved documents. Standard RAG retrieves semantically similar text chunks, but scientific questions often require understanding *how papers relate*: which work refutes another, who the key authors are, what foundational papers underpin a claim.
 
-![alt text](assets/scientific-rag-infographic.jpg)
+![Scientific RAG Infographic](assets/scientific-rag-infographic.jpg)
 
 This system implements a Federated Knowledge Core that separates:
 
@@ -48,21 +48,21 @@ This system implements a Federated Knowledge Core that separates:
 - How papers connect (citation topology via graph)
 - Where artifacts live (physical storage for reproducibility)
 
-The architecture enables "Graph-Boosted Retrieval" — semantic search results refined by citation topology. A query about "DESI void galaxy quenching" retrieves relevant chunks, then expands context to include highly-cited foundational papers that may not semantically match but are topologically indispensable.
+The architecture enables "Graph-Boosted Retrieval," where semantic search results are refined by citation topology. A query about "DESI void galaxy quenching" retrieves relevant chunks, then expands context to include highly-cited foundational papers that may not semantically match but are topologically indispensable.
 
 ---
 
 ## 🎯 Research Portfolio
 
-This corpus supports the Proxmox Astronomy Lab's DESI research portfolio:
+This corpus supports the radioastronomy.io DESI research portfolio:
 
 | Project | Focus | Corpus Role |
 |---------|-------|-------------|
-| [desi-cosmic-void-galaxies](https://github.com/Proxmox-Astronomy-Lab/desi-cosmic-void-galaxies) | Environmental quenching, ARD factory | Primary consumer — void science literature |
-| [desi-qso-anomaly-detection](https://github.com/Proxmox-Astronomy-Lab/desi-qso-anomaly-detection) | ML anomaly detection on QSO spectra | QSO/AGN methodology papers |
-| [desi-quasar-outflows](https://github.com/Proxmox-Astronomy-Lab/desi-quasar-outflows) | AGN feedback and outflow energetics | Outflow physics literature |
+| [desi-cosmic-void-galaxies](https://github.com/radioastronomyio/desi-cosmic-void-galaxies) | Environmental quenching, ARD factory | Primary consumer, void science literature |
+| [desi-qso-anomaly-detection](https://github.com/radioastronomyio/desi-qso-anomaly-detection) | ML anomaly detection on QSO spectra | QSO/AGN methodology papers |
+| [desi-quasar-outflows](https://github.com/radioastronomyio/desi-quasar-outflows) | AGN feedback and outflow energetics | Outflow physics literature |
 
-Seed corpus focus: DESIVAST (void catalog methodology) — central to all three projects.
+Seed corpus focus: DESIVAST (void catalog methodology), central to all three projects.
 
 ---
 
@@ -72,7 +72,7 @@ Seed corpus focus: DESIVAST (void catalog methodology) — central to all three 
 
 The system decouples content from context, bridged by NASA ADS Bibcode as the universal key.
 
-![alt text](assets/federated-knowledge-core-infographic.jpg)
+![Federated Knowledge Core](assets/federated-knowledge-core-infographic.jpg)
 
 ### Corpus Quality Hierarchy
 
@@ -85,7 +85,7 @@ Data sources prioritized by structure, fidelity, and reliability:
 | 3 | arXiv LaTeX | Clean text from source | High fidelity |
 | 4 | PDF Extraction | Text from rendered documents | Best effort |
 
-LaTeX-first extraction is critical — PDF-to-text conversion corrupts mathematical notation, mangles equations, and introduces OCR artifacts that poison the embedding space.
+LaTeX-first extraction is critical. PDF-to-text conversion corrupts mathematical notation, mangles equations, and introduces OCR artifacts that poison the embedding space.
 
 ---
 
@@ -111,20 +111,20 @@ The minimal end-to-end loop proving the architecture, split across three milesto
 arXiv ID → download source → LaTeX extraction → clean text + bibcode → PostgreSQL → semantic query → return with attribution
 ```
 
-No catalog integration, no Neo4j, no MCP — just the text pipeline.
+No catalog integration, no Neo4j, no MCP, just the text pipeline.
 
 ---
 
 ## 🖥️ Infrastructure
 
-This project runs on the [Proxmox Astronomy Lab](https://github.com/Proxmox-Astronomy-Lab/proxmox-astronomy-lab) research cluster.
+This project runs on the [radioastronomy.io](https://github.com/radioastronomyio/proxmox-astronomy-lab) research cluster.
 
 | Component | Resource | Purpose |
 |-----------|----------|---------|
 | PostgreSQL + pgvector | radio-pgsql01 (10.25.20.8) | Semantic layer, embeddings, vector search |
 | Neo4j | radio-neo4j01 (10.25.20.21) | Topological layer, citation graphs |
 | SMB Storage | radio-fs02 (10.25.20.15) | Physical layer, PDF/LaTeX artifacts |
-| GPU | radio-gpu01 (A4000, 16GB) | Embedding generation |
+| GPU Compute | ML01 (A4000, 16GB) | Embedding generation |
 | Database | `astronomy_rag_corpus` | Dedicated corpus database |
 
 Connection patterns follow the standard `/opt/global-env/research.env` configuration.
@@ -133,22 +133,27 @@ Connection patterns follow the standard `/opt/global-env/research.env` configura
 
 ## 📁 Repository Structure
 
-```markdown
+```
 astronomy-rag-corpus/
-├── .internal-files/              # GDR documents (gitignored)
-├── docs/                         # Documentation
-│   ├── data-science-infrastructure.md
-│   └── documentation-standards/  # Templates and tagging
-├── scratch/                      # Working files (gitignored)
-├── src/                          # Source code
-│   ├── acquisition/              # arXiv/ADS paper retrieval
-│   └── logging_config.py         # Centralized logging
-├── work-logs/                    # Milestone-based development
-│   ├── 01-ideation-and-setup/
-│   ├── 02-github-project-frameout/
-│   └── 03-arxiv-client-implementation/
-├── LICENSE
-└── README.md                     # This file
+├── 📂 assets/                      # Figures, diagrams, banners
+├── 📂 docs/
+│   ├── 📂 documentation-standards/ # Templates, tagging strategy
+│   └── 📄 data-science-infrastructure.md
+├── 📂 internal-files/              # GDR documents, working papers
+├── 📂 shared/                      # Shared resources
+├── 📂 spec/                        # Project specifications
+├── 📂 src/                         # Source code
+│   ├── 📂 acquisition/             # arXiv/ADS paper retrieval
+│   ├── 📂 extraction/              # LaTeX/PDF text extraction
+│   └── 📂 storage/                 # Database, embeddings, retrieval
+├── 📂 staging/                     # Staged work
+├── 📂 tests/                       # Test suite
+├── 📂 work-logs/                   # Milestone-based development history
+├── 📄 conftest.py                  # Pytest configuration
+├── 📄 requirements.txt             # Python dependencies
+├── 📄 LICENSE
+├── 📄 LICENSE-DATA
+└── 📄 README.md                    # This file
 ```
 
 ---
@@ -161,7 +166,7 @@ astronomy-rag-corpus/
 | | Neo4j 5 | Citation graphs, authorship networks |
 | Ingestion | arxiv.py | arXiv paper retrieval |
 | | ads | NASA ADS bibliographic data |
-| | pylatexenc | LaTeX → clean text |
+| | pylatexenc | LaTeX to clean text |
 | | PyMuPDF | PDF extraction (fallback) |
 | | astropy | FITS header extraction |
 | Orchestration | LangGraph | Stateful agentic workflows |
@@ -197,12 +202,11 @@ This repository benefits from open source programs that provide free or discount
 
 ## 🙏 Acknowledgments
 
-- [DESI Collaboration](https://www.desi.lbl.gov/) — Data releases and VAC documentation
-- [NASA ADS](https://ui.adsabs.harvard.edu/) — Bibliographic data and API access
-- [arXiv](https://arxiv.org/) — Open access preprints
-- [CDS](https://cds.u-strasbg.fr/) — SIMBAD and VizieR services
-- Proxmox Astronomy Lab — Research infrastructure
+- [DESI Collaboration](https://www.desi.lbl.gov/) for data releases and VAC documentation
+- [NASA ADS](https://ui.adsabs.harvard.edu/) for bibliographic data and API access
+- [arXiv](https://arxiv.org/) for open access preprints
+- [CDS](https://cds.u-strasbg.fr/) for SIMBAD and VizieR services
 
 ---
 
-Last Updated: January 3, 2026 | Current Phase: 03 Acquisition Complete
+Last Updated: 2026-03-29 | Current Phase: 04 Extraction Next
