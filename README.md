@@ -96,10 +96,10 @@ LaTeX-first extraction is critical. PDF-to-text conversion corrupts mathematical
 | 01 | [Ideation and Setup](work-logs/01-ideation-and-setup/README.md) | ✅ Complete | GDR review, repo initialization |
 | 02 | [GitHub Frameout](work-logs/02-github-project-frameout/README.md) | ✅ Complete | Milestones, tasks, GitHub labels |
 | 03 | [Acquisition](work-logs/03-arxiv-client-implementation/README.md) | ✅ Complete | arXiv client, PDF download, source extraction |
-| 04 | Extraction | ⬜ Next | LaTeX/PDF text extraction |
-| 05 | Storage | ⬜ Planned | Database, embeddings, retrieval |
-| 06 | Harvester | ⬜ Planned | Bulk acquisition, seed corpus population |
-| 07 | Hybrid Engine | ⬜ Planned | Neo4j graph construction |
+| 04 | Extraction | ✅ Complete | LaTeX/PDF text extraction |
+| 05 | Storage | ✅ Completed | Database, embeddings, retrieval |
+| 06 | Harvester | ✅ Complete | Bulk acquisition, seed corpus population |
+| 07 | Hybrid Engine | ⬜ In Progress | Neo4j graph construction |
 | 08 | Agent | ⬜ Planned | LangGraph state machine |
 | 09 | Interface | ⬜ Planned | MCP servers, Claude Code integration |
 
